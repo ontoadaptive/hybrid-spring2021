@@ -1,15 +1,18 @@
-# NAA
+# NAA.
 # - Needed to fix some YAML parsing errors
 # - https://github.com/Neo4jSolutions/patient-journey-model/blob/master/ingest/config.yml
-# NAA
+# NAA.
 # - override in local deploy
 # server_uri: bolt://localhost:7687/ 
 # admin_user: neo4j
 # admin_pass: test
+# NAA.
+# - need uris that Neo4j sandbox can access
 
 files:
   # payers
-  - url: file:///data/projects/synthea/output/csv/payers.csv
+  # - url: file:///data/projects/synthea/output/csv/payers.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/payers.csv
     compression: none
     skip_file: false
     cql: |
@@ -21,7 +24,8 @@ files:
             p.zip=row.ZIP,
             p.state=row.STATE_HEADQUARTERED
   # encounters
-  - url: file:///data/projects/synthea/output/csv/encounters.csv
+  # - url: file:///data/projects/synthea/output/csv/encounters.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/encounters.csv
     compression: none
     skip_file: false
     cql: |
@@ -47,7 +51,8 @@ files:
         MATCH (pa:Payer {id:row.PAYER})
         MERGE (e)-[:HAS_PAYER]->(pa)
   # providers
-  - url: file:///data/projects/synthea/output/csv/providers.csv
+  # - url: file:///data/projects/synthea/output/csv/providers.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/provider.csv
     compression: none
     skip_file: false
     cql: |
@@ -61,7 +66,8 @@ files:
       SET a.location = point({latitude:toFloat(row.LAT), longitude:toFloat(row.LON)})
       MERGE (p)-[:HAS_ADDRESS]->(a)
   # patients
-  - url: file:///data/projects/synthea/output/csv/patients.csv
+  # - url: file:///data/projects/synthea/output/csv/patients.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/patients.csv
     compression: none
     skip_file: false
     cql: |
@@ -82,7 +88,8 @@ files:
         SET a.location = point({latitude:toFloat(row.LAT), longitude:toFloat(row.LON)})
         MERGE (p)-[:HAS_ADDRESS]->(a)
   # payer transitions
-  - url: file:///data/projects/synthea/output/csv/payer_transitions.csv
+  # - url: file:///data/projects/synthea/output/csv/payer_transitions.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/payer_transitions.csv
     compression: none
     skip_file: false
     cql: |
@@ -94,7 +101,8 @@ files:
       CREATE (p)-[e:INSURANCE_END]->(payer)
       SET e.year=toInteger(row.END_YEAR)
   # allergies
-  - url: file:///data/projects/synthea/output/csv/allergies.csv
+  # - url: file:///data/projects/synthea/output/csv/allergies.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/allergies.csv
     compression: none
     skip_file: false
     cql: |
@@ -117,7 +125,8 @@ files:
           MERGE (ae)-[:HAS_ALLERGY]->(a)
           MERGE (as)-[:HAS_END]->(ae)
   # conditions
-  - url: file:///data/projects/synthea/output/csv/conditions.csv
+  # - url: file:///data/projects/synthea/output/csv/conditions.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/conditions.csv
     compression: none
     skip_file: false
     cql: |
@@ -140,7 +149,8 @@ files:
         MERGE (ce)-[:HAS_CONDITION]->(c)
         MERGE (cs)-[:HAS_END]->(ce)
   # medications
-  - url: file:///data/projects/synthea/output/csv/medications.csv
+  # - url: file:///data/projects/synthea/output/csv/medications.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/medications.csv
     compression: none
     skip_file: false
     cql: |
@@ -163,7 +173,8 @@ files:
           MERGE (pe)-[:HAS_DRUG]->(d)
           MERGE (ps)-[:HAS_END]->(pe)
   # procedures
-  - url: file:///data/projects/synthea/output/csv/procedures.csv
+  # - url: file:///data/projects/synthea/output/csv/procedures.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/procedures.csv
     compression: none
     skip_file: false
     cql: |
@@ -179,7 +190,8 @@ files:
           MERGE (p)-[:HAS_ENCOUNTER]->(pe)
           MERGE (pe)-[:HAS_PROCEDURE]->(r)
   # observations
-  - url: file:///data/projects/synthea/output/csv/observations.csv
+  # - url: file:///data/projects/synthea/output/csv/observations.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/observations.csv
     compression: none
     skip_file: false
     cql: |
@@ -193,7 +205,8 @@ files:
       MERGE (oe) -[:HAS_OBSERVATION]-> (o:Observation )
       SET o += attr
   # care plans
-  - url: file:///data/projects/synthea/output/csv/careplans.csv
+  # - url: file:///data/projects/synthea/output/csv/careplans.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/careplan.csv
     compression: none
     skip_file: false
     cql: |
@@ -216,7 +229,8 @@ files:
           MERGE (ce)-[:HAS_CARE_PLAN]->(c)
           MERGE (cs)-[:HAS_END]->(ce)
   # organizations
-  - url: file:///data/projects/synthea/output/csv/organizations.csv
+  # - url: file:///data/projects/synthea/output/csv/organizations.csv
+  - url: https://storage.googleapis.com/ids507-spring2021/synthea-25-epilepsy/organizations.csv
     compression: none
     skip_file: false
     cql: |
